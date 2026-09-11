@@ -1090,9 +1090,35 @@ footer p { font-size: 0.78rem; color: var(--muted); }
     }
     errorEl.classList.remove('show');
     btn.disabled = true;
-    btn.textContent = 'Redirecting...';
+    btn.textContent = 'Checking account...';
 
     try {
+      // Step 1: verify the email is a registered GymNest account
+      const checkRes = await fetch('https://gymnest-stripe.runzone5.workers.dev/check-email', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email })
+      });
+      const checkData = await checkRes.json();
+
+      if (!checkData.exists) {
+        errorEl.innerHTML = 'No GymNest account found with this email.<br>Please <a href="https://dashboard.gymnest.org" target="_blank" style="color:var(--orange);">register first at dashboard.gymnest.org</a> then come back to upgrade.';
+        errorEl.classList.add('show');
+        btn.disabled = false;
+        btn.textContent = 'Continue to payment';
+        return;
+      }
+
+      if (checkData.plan === 'pro') {
+        errorEl.textContent = 'This account is already on Pro. Sign in at dashboard.gymnest.org.';
+        errorEl.classList.add('show');
+        btn.disabled = false;
+        btn.textContent = 'Continue to payment';
+        return;
+      }
+
+      // Step 2: email exists and is on free — proceed to Stripe
+      btn.textContent = 'Redirecting...';
       const res = await fetch('https://gymnest-stripe.runzone5.workers.dev/create-checkout', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
