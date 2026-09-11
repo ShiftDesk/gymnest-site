@@ -3,418 +3,876 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GymNest — Gym Management Made Simple</title>
+<title>GymNest — Gym Management Software</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600&family=Barlow+Condensed:wght@700;800&display=swap" rel="stylesheet">
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-  :root {
-    --orange: #f97316;
-    --orange-dark: #ea6c0a;
-    --black: #111111;
-    --gray-dark: #1c1c1e;
-    --gray: #3a3a3c;
-    --gray-light: #f5f5f5;
-    --white: #ffffff;
-    --text: #1c1c1e;
-    --text-muted: #6b6b6b;
-    --radius: 16px;
-  }
+:root {
+  --orange: #F97316;
+  --orange-dark: #C05A0A;
+  --black: #080808;
+  --dark: #111111;
+  --surface: #1A1A1A;
+  --border: #282828;
+  --text: #E0E0E0;
+  --muted: #777;
+  --white: #ffffff;
+}
 
-  body {
-    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', sans-serif;
-    background: var(--white);
-    color: var(--text);
-    line-height: 1.6;
-  }
+html { scroll-behavior: smooth; }
 
-  /* NAV */
-  nav {
-    position: sticky; top: 0; z-index: 100;
-    background: rgba(255,255,255,0.92);
-    backdrop-filter: blur(12px);
-    border-bottom: 1px solid #e5e5e5;
-    padding: 0 24px;
-    height: 64px;
-    display: flex; align-items: center; justify-content: space-between;
-  }
-  .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
-  .nav-logo img { width: 36px; height: 36px; border-radius: 8px; }
-  .nav-logo span { font-size: 18px; font-weight: 700; color: var(--black); letter-spacing: -0.3px; }
-  .nav-links { display: flex; gap: 28px; }
-  .nav-links a { text-decoration: none; font-size: 14px; color: var(--text-muted); font-weight: 500; transition: color 0.2s; }
-  .nav-links a:hover { color: var(--orange); }
+body {
+  font-family: 'Barlow', sans-serif;
+  background: var(--black);
+  color: var(--text);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
 
-  /* HERO */
-  .hero {
-    background: linear-gradient(160deg, #fff8f4 0%, #fff 60%);
-    padding: 100px 24px 80px;
-    text-align: center;
-  }
-  .hero-logo {
-    width: 96px; height: 96px;
-    border-radius: 24px;
-    box-shadow: 0 8px 32px rgba(249,115,22,0.25);
-    margin: 0 auto 28px;
-    display: block;
-  }
-  .hero h1 {
-    font-size: clamp(36px, 6vw, 64px);
-    font-weight: 800;
-    letter-spacing: -2px;
-    line-height: 1.05;
-    color: var(--black);
-    margin-bottom: 20px;
-  }
-  .hero h1 span { color: var(--orange); }
-  .hero p {
-    font-size: 18px;
-    color: var(--text-muted);
-    max-width: 520px;
-    margin: 0 auto 40px;
-    line-height: 1.6;
-  }
-  .hero-buttons { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
-  .btn-primary {
-    background: var(--orange);
-    color: #fff;
-    padding: 14px 28px;
-    border-radius: 50px;
-    text-decoration: none;
-    font-weight: 700;
-    font-size: 15px;
-    transition: background 0.2s, transform 0.1s;
-    display: inline-flex; align-items: center; gap: 8px;
-  }
-  .btn-primary:hover { background: var(--orange-dark); transform: translateY(-1px); }
-  .btn-secondary {
-    background: var(--gray-light);
-    color: var(--black);
-    padding: 14px 28px;
-    border-radius: 50px;
-    text-decoration: none;
-    font-weight: 600;
-    font-size: 15px;
-    transition: background 0.2s;
-    display: inline-flex; align-items: center; gap: 8px;
-  }
-  .btn-secondary:hover { background: #e0e0e0; }
+/* ── NAV ── */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 40px;
+  height: 64px;
+  background: rgba(8,8,8,0.85);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+}
+.nav-logo img {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+}
+.nav-logo span {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: var(--white);
+  letter-spacing: 0.02em;
+}
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+}
+.nav-links a {
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+.nav-links a:hover { color: var(--white); }
+.btn-nav {
+  background: var(--orange);
+  color: var(--white);
+  padding: 9px 22px;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background 0.2s;
+}
+.btn-nav:hover { background: var(--orange-dark); color: var(--white); }
 
-  /* DOWNLOAD SECTION */
-  .download-section {
-    padding: 80px 24px;
-    text-align: center;
-    background: var(--black);
-  }
-  .download-section .section-label { color: var(--orange); }
-  .download-section .section-title { color: var(--white); }
-  .download-cards {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 24px;
-    max-width: 720px;
-    margin: 48px auto 0;
-  }
-  .download-card {
-    background: #1c1c1e;
-    border: 1px solid #2a2a2a;
-    border-radius: var(--radius);
-    padding: 32px;
-    text-align: left;
-  }
-  .download-card-icon {
-    width: 56px; height: 56px;
-    border-radius: 14px;
-    background: var(--orange);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 26px;
-    margin-bottom: 20px;
-  }
-  .download-card h3 { font-size: 18px; font-weight: 700; color: var(--white); margin-bottom: 8px; }
-  .download-card p { font-size: 14px; color: #888; line-height: 1.6; margin-bottom: 24px; }
-  .btn-appstore {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    background: var(--white);
-    color: var(--black);
-    text-decoration: none;
-    padding: 12px 22px;
-    border-radius: 50px;
-    font-weight: 700;
-    font-size: 14px;
-    transition: opacity 0.2s;
-  }
-  .btn-appstore:hover { opacity: 0.85; }
-  .btn-appstore svg { width: 18px; height: 18px; }
+/* ── HERO ── */
+.hero {
+  position: relative;
+  height: 100vh;
+  min-height: 600px;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+.hero-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.45;
+}
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to right, rgba(8,8,8,0.92) 45%, rgba(8,8,8,0.3) 100%);
+}
+.hero-content {
+  position: relative;
+  z-index: 2;
+  padding: 0 60px;
+  max-width: 720px;
+}
+.hero-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--orange);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  margin-bottom: 20px;
+}
+.hero-eyebrow::before {
+  content: '';
+  display: block;
+  width: 24px;
+  height: 2px;
+  background: var(--orange);
+}
+h1 {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: clamp(3rem, 6vw, 5.5rem);
+  font-weight: 800;
+  line-height: 1.0;
+  color: var(--white);
+  letter-spacing: -0.01em;
+  margin-bottom: 24px;
+}
+.hero p {
+  font-size: 1.1rem;
+  color: rgba(224,224,224,0.75);
+  max-width: 480px;
+  margin-bottom: 40px;
+  line-height: 1.7;
+}
+.hero-cta {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+.btn-primary {
+  background: var(--orange);
+  color: var(--white);
+  padding: 15px 32px;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background 0.2s, transform 0.15s;
+  display: inline-block;
+}
+.btn-primary:hover { background: var(--orange-dark); transform: translateY(-2px); }
+.btn-ghost {
+  background: rgba(255,255,255,0.08);
+  color: var(--white);
+  padding: 15px 32px;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  text-decoration: none;
+  border: 1px solid rgba(255,255,255,0.15);
+  transition: background 0.2s;
+  display: inline-block;
+}
+.btn-ghost:hover { background: rgba(255,255,255,0.14); }
+.hero-scroll {
+  position: absolute;
+  bottom: 36px;
+  left: 60px;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--muted);
+  font-size: 0.78rem;
+  letter-spacing: 0.06em;
+}
+.hero-scroll::after {
+  content: '';
+  display: block;
+  width: 40px;
+  height: 1px;
+  background: var(--muted);
+}
 
-  /* FEATURES */
-  .features {
-    padding: 80px 24px;
-    max-width: 1100px;
-    margin: 0 auto;
-  }
-  .section-label {
-    font-size: 12px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    color: var(--orange);
-    margin-bottom: 12px;
-  }
-  .section-title {
-    font-size: clamp(28px, 4vw, 42px);
-    font-weight: 800;
-    letter-spacing: -1px;
-    color: var(--black);
-    margin-bottom: 48px;
-  }
-  .features-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 24px;
-  }
-  .feature-card {
-    background: var(--gray-light);
-    border-radius: var(--radius);
-    padding: 28px;
-    transition: transform 0.2s;
-  }
-  .feature-card:hover { transform: translateY(-3px); }
-  .feature-icon {
-    width: 48px; height: 48px;
-    background: var(--orange);
-    border-radius: 12px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 22px;
-    margin-bottom: 16px;
-  }
-  .feature-card h3 { font-size: 17px; font-weight: 700; margin-bottom: 8px; color: var(--black); }
-  .feature-card p { font-size: 14px; color: var(--text-muted); line-height: 1.6; }
+/* ── STATS BAR ── */
+.stats-bar {
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  justify-content: center;
+  gap: 0;
+}
+.stat {
+  padding: 28px 56px;
+  text-align: center;
+  border-right: 1px solid var(--border);
+}
+.stat:last-child { border-right: none; }
+.stat-num {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: var(--white);
+  line-height: 1;
+}
+.stat-label {
+  font-size: 0.8rem;
+  color: var(--muted);
+  margin-top: 4px;
+}
 
-  /* PRICING */
-  .pricing {
-    background: var(--gray-light);
-    padding: 80px 24px;
-    text-align: center;
-  }
-  .pricing-toggle {
-    display: inline-flex;
-    background: #e0e0e0;
-    border-radius: 50px;
-    padding: 4px;
-    margin-bottom: 40px;
-  }
-  .pricing-toggle button {
-    padding: 8px 24px;
-    border-radius: 50px;
-    border: none;
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-    background: transparent;
-    color: var(--text-muted);
-    transition: all 0.2s;
-  }
-  .pricing-toggle button.active {
-    background: var(--white);
-    color: var(--black);
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-  }
-  .pricing-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 24px;
-    max-width: 720px;
-    margin: 0 auto;
-  }
-  .pricing-card {
-    background: var(--white);
-    border-radius: var(--radius);
-    padding: 32px;
-    border: 1.5px solid #e5e5e5;
-    position: relative;
-    text-align: left;
-  }
-  .pricing-card.featured {
-    border-color: var(--orange);
-    box-shadow: 0 8px 32px rgba(249,115,22,0.15);
-  }
-  .pricing-badge {
-    position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
-    background: var(--orange); color: #fff;
-    font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;
-    padding: 4px 14px; border-radius: 50px;
-    white-space: nowrap;
-  }
-  .pricing-card h3 { font-size: 16px; font-weight: 600; color: var(--text-muted); margin-bottom: 8px; }
-  .pricing-price { font-size: 42px; font-weight: 800; color: var(--black); letter-spacing: -1px; }
-  .pricing-price span { font-size: 16px; font-weight: 500; color: var(--text-muted); }
-  .pricing-period { font-size: 13px; color: var(--text-muted); margin: 4px 0 20px; }
-  .pricing-features { list-style: none; margin: 0 0 28px; }
-  .pricing-features li { font-size: 14px; color: var(--text); padding: 6px 0; display: flex; gap: 10px; align-items: flex-start; }
-  .pricing-features li::before { content: "✓"; color: var(--orange); font-weight: 700; flex-shrink: 0; }
-  .btn-subscribe {
-    display: block;
-    text-align: center;
-    padding: 14px;
-    border-radius: 50px;
-    font-weight: 700;
-    font-size: 15px;
-    text-decoration: none;
-    cursor: pointer;
-    border: none;
-    width: 100%;
-    transition: all 0.2s;
-  }
-  .btn-subscribe-primary { background: var(--orange); color: #fff; }
-  .btn-subscribe-primary:hover { background: var(--orange-dark); }
-  .btn-subscribe-secondary { background: var(--gray-light); color: var(--black); }
-  .btn-subscribe-secondary:hover { background: #e0e0e0; }
+/* ── FEATURES ── */
+.features-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 600px;
+}
+.features-image {
+  position: relative;
+  overflow: hidden;
+}
+.features-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  opacity: 0.7;
+}
+.features-image::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to right, transparent 60%, var(--black));
+}
+.features-content {
+  padding: 80px 60px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.section-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--orange);
+  letter-spacing: 0.1em;
+  margin-bottom: 16px;
+}
+.features-content h2 {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: clamp(2rem, 3vw, 3rem);
+  font-weight: 800;
+  color: var(--white);
+  line-height: 1.1;
+  margin-bottom: 40px;
+  letter-spacing: -0.01em;
+}
+.feature-list {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+.feature-item {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+}
+.feature-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--orange);
+  margin-top: 6px;
+  flex-shrink: 0;
+}
+.feature-item h3 {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--white);
+  margin-bottom: 4px;
+}
+.feature-item p {
+  font-size: 0.85rem;
+  color: var(--muted);
+  line-height: 1.6;
+}
 
-  /* MODAL */
-  .modal-overlay {
-    position: fixed; inset: 0;
-    background: rgba(0,0,0,0.6);
-    z-index: 1000;
-    display: none; align-items: center; justify-content: center;
-    padding: 24px;
-  }
-  .modal-overlay.open { display: flex; }
-  .modal {
-    background: var(--white);
-    border-radius: var(--radius);
-    padding: 36px;
-    width: 100%; max-width: 420px;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.2);
-  }
-  .modal h3 { font-size: 20px; font-weight: 800; color: var(--black); margin-bottom: 6px; }
-  .modal-plan-info { font-size: 14px; color: var(--text-muted); margin-bottom: 24px; }
-  .modal label { display: block; font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 6px; }
-  .modal input {
-    width: 100%; border: 1.5px solid #e5e5e5; border-radius: 10px;
-    padding: 12px 14px; font-size: 15px; color: var(--black);
-    margin-bottom: 14px; outline: none; font-family: inherit;
-    transition: border-color 0.2s;
-  }
-  .modal input:focus { border-color: var(--orange); }
-  .modal-note { font-size: 12px; color: var(--text-muted); margin-top: -8px; margin-bottom: 16px; }
-  .modal-error { font-size: 13px; color: #e53e3e; margin-bottom: 12px; display: none; }
-  .modal-error.show { display: block; }
-  .modal-actions { display: flex; gap: 12px; }
-  .btn-cancel { flex: 1; padding: 13px; border-radius: 50px; border: 1.5px solid #e5e5e5; background: transparent; color: var(--text); font-size: 14px; font-weight: 600; cursor: pointer; }
-  .btn-checkout { flex: 2; padding: 13px; border-radius: 50px; border: none; background: var(--orange); color: #fff; font-size: 14px; font-weight: 700; cursor: pointer; transition: background 0.2s; }
-  .btn-checkout:hover { background: var(--orange-dark); }
-  .btn-checkout:disabled { opacity: 0.5; cursor: not-allowed; }
+/* ── PHOTO STRIP ── */
+.photo-strip {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  height: 480px;
+  overflow: hidden;
+}
+.photo-strip-item {
+  position: relative;
+  overflow: hidden;
+}
+.photo-strip-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s ease;
+  display: block;
+}
+.photo-strip-item:hover img { transform: scale(1.04); }
+.photo-strip-label {
+  position: absolute;
+  bottom: 24px;
+  left: 24px;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--white);
+  background: rgba(0,0,0,0.5);
+  padding: 4px 12px;
+  border-radius: 4px;
+  backdrop-filter: blur(8px);
+}
 
-  /* LEGAL */
-  .legal-section {
-    padding: 60px 24px;
-    text-align: center;
-    max-width: 600px;
-    margin: 0 auto;
-  }
-  .legal-section h2 { font-size: 24px; font-weight: 700; margin-bottom: 8px; }
-  .legal-section p { color: var(--text-muted); margin-bottom: 28px; }
-  .legal-links { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
-  .legal-link {
-    background: var(--gray-light);
-    color: var(--black);
-    text-decoration: none;
-    padding: 12px 24px;
-    border-radius: 50px;
-    font-weight: 600;
-    font-size: 14px;
-    display: inline-flex; align-items: center; gap: 8px;
-    transition: background 0.2s;
-  }
-  .legal-link:hover { background: #e0e0e0; }
+/* ── PRICING ── */
+.pricing-section {
+  padding: 100px 40px;
+  text-align: center;
+}
+.pricing-section h2 {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: clamp(2.2rem, 4vw, 3.4rem);
+  font-weight: 800;
+  color: var(--white);
+  margin-bottom: 12px;
+  letter-spacing: -0.01em;
+}
+.pricing-section > p {
+  color: var(--muted);
+  margin-bottom: 40px;
+  font-size: 0.95rem;
+}
+.pricing-toggle {
+  display: inline-flex;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 4px;
+  margin-bottom: 48px;
+}
+.pricing-toggle button {
+  padding: 8px 24px;
+  border-radius: 4px;
+  border: none;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  background: transparent;
+  color: var(--muted);
+  font-family: 'Barlow', sans-serif;
+  transition: all 0.2s;
+}
+.pricing-toggle button.active {
+  background: var(--orange);
+  color: var(--white);
+}
+.pricing-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  max-width: 740px;
+  margin: 0 auto;
+}
+.plan-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 36px 32px;
+  text-align: left;
+  position: relative;
+  transition: border-color 0.2s;
+}
+.plan-card:hover { border-color: #444; }
+.plan-card.featured { border-color: var(--orange); }
+.plan-badge {
+  position: absolute;
+  top: -13px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--orange);
+  color: var(--white);
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 4px 14px;
+  border-radius: 20px;
+  white-space: nowrap;
+  letter-spacing: 0.04em;
+}
+.plan-name {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--muted);
+  margin-bottom: 12px;
+  letter-spacing: 0.04em;
+}
+.plan-price {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 3rem;
+  font-weight: 800;
+  color: var(--white);
+  line-height: 1;
+}
+.plan-price sub {
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--muted);
+  font-family: 'Barlow', sans-serif;
+  vertical-align: baseline;
+}
+.plan-period {
+  font-size: 0.78rem;
+  color: var(--muted);
+  margin: 6px 0 24px;
+}
+.plan-features {
+  list-style: none;
+  margin-bottom: 28px;
+}
+.plan-features li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.875rem;
+  color: var(--text);
+  padding: 5px 0;
+}
+.plan-features li::before {
+  content: '✓';
+  color: var(--orange);
+  font-weight: 700;
+  font-size: 0.8rem;
+  flex-shrink: 0;
+}
+.btn-plan {
+  width: 100%;
+  padding: 13px;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: 'Barlow', sans-serif;
+  transition: all 0.2s;
+  text-decoration: none;
+  display: block;
+  text-align: center;
+  border: none;
+}
+.btn-plan-primary { background: var(--orange); color: var(--white); }
+.btn-plan-primary:hover { background: var(--orange-dark); }
+.btn-plan-secondary { background: transparent; color: var(--text); border: 1px solid var(--border); }
+.btn-plan-secondary:hover { border-color: #555; }
+.pricing-note {
+  margin-top: 24px;
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+.pricing-note a { color: var(--orange); text-decoration: none; }
 
-  /* FOOTER */
-  footer {
-    background: var(--black);
-    color: rgba(255,255,255,0.5);
-    text-align: center;
-    padding: 32px 24px;
-    font-size: 13px;
-  }
-  footer a { color: var(--orange); text-decoration: none; }
+/* ── DOWNLOAD ── */
+.download-section {
+  position: relative;
+  overflow: hidden;
+}
+.download-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.2;
+}
+.download-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, var(--black) 0%, transparent 30%, transparent 70%, var(--black) 100%);
+}
+.download-content {
+  position: relative;
+  z-index: 2;
+  padding: 100px 40px;
+  text-align: center;
+}
+.download-content h2 {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: clamp(2.2rem, 4vw, 3.2rem);
+  font-weight: 800;
+  color: var(--white);
+  margin-bottom: 12px;
+  letter-spacing: -0.01em;
+}
+.download-content > p {
+  color: var(--muted);
+  margin-bottom: 56px;
+  font-size: 0.95rem;
+}
+.download-cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  max-width: 760px;
+  margin: 0 auto;
+}
+.download-card {
+  background: rgba(26,26,26,0.9);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 32px;
+  text-align: left;
+  backdrop-filter: blur(12px);
+}
+.download-card-icon {
+  font-size: 2rem;
+  margin-bottom: 16px;
+  display: block;
+}
+.download-card h3 {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--white);
+  margin-bottom: 8px;
+}
+.download-card p {
+  font-size: 0.85rem;
+  color: var(--muted);
+  line-height: 1.6;
+  margin-bottom: 24px;
+}
+.store-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.btn-store {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--white);
+  color: var(--black);
+  text-decoration: none;
+  padding: 11px 20px;
+  border-radius: 6px;
+  font-weight: 700;
+  font-size: 0.875rem;
+  transition: opacity 0.2s;
+  font-family: 'Barlow', sans-serif;
+}
+.btn-store:hover { opacity: 0.88; }
+.btn-store svg { width: 18px; height: 18px; flex-shrink: 0; }
+.btn-store-play { background: #1a1a2e; color: var(--white); border: 1px solid var(--border); }
 
-  @media (max-width: 600px) {
-    .nav-links { display: none; }
-    .hero { padding: 60px 20px; }
-  }
+/* ── FAQ ── */
+.faq-section {
+  padding: 100px 40px;
+  max-width: 700px;
+  margin: 0 auto;
+}
+.faq-section h2 {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: clamp(2rem, 3vw, 2.8rem);
+  font-weight: 800;
+  color: var(--white);
+  margin-bottom: 48px;
+  letter-spacing: -0.01em;
+}
+.faq-item { border-bottom: 1px solid var(--border); }
+.faq-q {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 0;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--white);
+  cursor: pointer;
+  user-select: none;
+  gap: 16px;
+}
+.faq-icon {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--orange);
+  font-size: 1.1rem;
+  flex-shrink: 0;
+  transition: background 0.2s;
+}
+.faq-q.open .faq-icon { background: var(--orange); color: var(--white); border-color: var(--orange); }
+.faq-a {
+  font-size: 0.875rem;
+  color: var(--muted);
+  line-height: 1.8;
+  padding-bottom: 20px;
+  display: none;
+}
+.faq-a.open { display: block; }
+
+/* ── CTA BOTTOM ── */
+.cta-section {
+  padding: 120px 40px;
+  text-align: center;
+  border-top: 1px solid var(--border);
+}
+.cta-section h2 {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: clamp(2.2rem, 4vw, 3.6rem);
+  font-weight: 800;
+  color: var(--white);
+  margin-bottom: 16px;
+  letter-spacing: -0.01em;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.cta-section p { color: var(--muted); margin-bottom: 36px; font-size: 0.95rem; }
+
+/* ── FOOTER ── */
+footer {
+  border-top: 1px solid var(--border);
+  padding: 28px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+footer p { font-size: 0.78rem; color: var(--muted); }
+.footer-links { display: flex; gap: 24px; }
+.footer-links a { font-size: 0.78rem; color: var(--muted); text-decoration: none; }
+.footer-links a:hover { color: var(--text); }
+
+/* ── MODAL ── */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.8);
+  z-index: 1000;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  backdrop-filter: blur(4px);
+}
+.modal-overlay.open { display: flex; }
+.modal {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 40px;
+  width: 100%;
+  max-width: 420px;
+}
+.modal h3 {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: var(--white);
+  margin-bottom: 6px;
+}
+.modal-plan { font-size: 0.85rem; color: var(--muted); margin-bottom: 28px; }
+.modal label { display: block; font-size: 0.82rem; font-weight: 600; color: var(--text); margin-bottom: 6px; }
+.modal input {
+  width: 100%;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 12px 14px;
+  color: var(--white);
+  font-size: 0.95rem;
+  margin-bottom: 6px;
+  font-family: 'Barlow', sans-serif;
+  outline: none;
+  transition: border-color 0.2s;
+}
+.modal input:focus { border-color: var(--orange); }
+.modal-note { font-size: 0.75rem; color: var(--muted); margin-bottom: 20px; }
+.modal-error { font-size: 0.8rem; color: #f87171; margin-bottom: 12px; display: none; }
+.modal-error.show { display: block; }
+.modal-actions { display: flex; gap: 12px; }
+.btn-cancel {
+  flex: 1; padding: 12px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text);
+  font-family: 'Barlow', sans-serif;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+}
+.btn-checkout {
+  flex: 2; padding: 12px;
+  border-radius: 6px;
+  border: none;
+  background: var(--orange);
+  color: var(--white);
+  font-family: 'Barlow', sans-serif;
+  font-size: 0.875rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.btn-checkout:hover { background: var(--orange-dark); }
+.btn-checkout:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+  nav { padding: 0 20px; }
+  .nav-links { display: none; }
+  .hero-content { padding: 0 24px; }
+  .hero-scroll { left: 24px; }
+  .stats-bar { flex-wrap: wrap; }
+  .stat { padding: 20px 32px; border-right: none; border-bottom: 1px solid var(--border); width: 50%; }
+  .features-section { grid-template-columns: 1fr; }
+  .features-image { height: 300px; }
+  .features-content { padding: 48px 24px; }
+  .photo-strip { grid-template-columns: 1fr; height: auto; }
+  .photo-strip-item { height: 260px; }
+  .pricing-grid { grid-template-columns: 1fr; }
+  .pricing-section { padding: 60px 24px; }
+  .download-cards { grid-template-columns: 1fr; }
+  .download-content { padding: 60px 24px; }
+  .faq-section { padding: 60px 24px; }
+  .cta-section { padding: 80px 24px; }
+  footer { flex-direction: column; align-items: flex-start; padding: 24px; }
+}
 </style>
 </head>
 <body>
 
+<!-- NAV -->
 <nav>
-  <a class="nav-logo" href="#">
-    <img src="logo.PNG" alt="GymNest logo">
+  <a href="#" class="nav-logo">
+    <img src="logo.PNG" alt="GymNest">
     <span>GymNest</span>
   </a>
   <div class="nav-links">
     <a href="#features">Features</a>
     <a href="#pricing">Pricing</a>
     <a href="#download">Download</a>
-    <a href="privacy.html">Privacy</a>
-    <a href="terms.html">Terms</a>
+    <a href="https://dashboard.gymnest.org" class="btn-nav">Dashboard</a>
   </div>
 </nav>
 
-<!-- HERO -->
+<!-- HERO with video background -->
 <section class="hero">
-  <img class="hero-logo" src="logo.PNG" alt="GymNest">
-  <h1>Gym management<br><span>made simple.</span></h1>
-  <p>Everything you need to run your gym — members, check-ins, payments, and more. All in one app.</p>
-  <div class="hero-buttons">
-    <a class="btn-primary" href="https://apps.apple.com/dk/app/gymnest/id6797864571" target="_blank">⬇ Download for Gym Owners</a>
-    <a class="btn-secondary" href="https://dashboard.gymnest.org" target="_blank">🌐 Web Dashboard</a>
+  <video class="hero-video" autoplay muted loop playsinline poster="gymnest22.jpg">
+    <source src="gymnest1.mp4" type="video/mp4">
+  </video>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">Gym management software</div>
+    <h1>Your gym.<br>Fully under<br>control.</h1>
+    <p>Members, check-ins, plans, and revenue — managed from your iPhone or any browser. Built for gym owners who have a gym to run.</p>
+    <div class="hero-cta">
+      <a href="#pricing" class="btn-primary">Start free</a>
+      <a href="https://dashboard.gymnest.org" class="btn-ghost">Open dashboard</a>
+    </div>
+  </div>
+  <div class="hero-scroll">Scroll to explore</div>
+</section>
+
+<!-- STATS BAR -->
+<div class="stats-bar">
+  <div class="stat">
+    <div class="stat-num">20</div>
+    <div class="stat-label">Members free forever</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num">iOS + Web</div>
+    <div class="stat-label">iPhone app & web dashboard</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num">135+</div>
+    <div class="stat-label">Currencies accepted</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num">$0</div>
+    <div class="stat-label">Setup cost</div>
+  </div>
+</div>
+
+<!-- FEATURES with gym image -->
+<section class="features-section" id="features">
+  <div class="features-image">
+    <img src="gymnest22.jpg" alt="Gym interior">
+  </div>
+  <div class="features-content">
+    <div class="section-label">What's included</div>
+    <h2>Everything your gym needs.</h2>
+    <div class="feature-list">
+      <div class="feature-item">
+        <div class="feature-dot"></div>
+        <div>
+          <h3>Member management</h3>
+          <p>Add members, assign plans, track status and expiry. Search by name or phone in seconds.</p>
+        </div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-dot"></div>
+        <div>
+          <h3>QR check-ins</h3>
+          <p>Each member gets a personal QR code. They scan it to check in. You see it live on the dashboard.</p>
+        </div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-dot"></div>
+        <div>
+          <h3>Plans & payments</h3>
+          <p>Create any membership plan. Record payments instantly. Revenue updates on your dashboard the same second.</p>
+        </div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-dot"></div>
+        <div>
+          <h3>Web dashboard</h3>
+          <p>Full access from any browser at dashboard.gymnest.org — no iPhone required to run your gym.</p>
+        </div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-dot"></div>
+        <div>
+          <h3>Announcements</h3>
+          <p>Post updates with photos directly to your members' app. Closures, class changes, events.</p>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 
-<!-- FEATURES -->
-<section class="features" id="features">
-  <div class="section-label">Features</div>
-  <div class="section-title">Run your gym smarter</div>
-  <div class="features-grid">
-    <div class="feature-card">
-      <div class="feature-icon">👥</div>
-      <h3>Member management</h3>
-      <p>Add, edit, and track all your members. Search by name or phone. View membership status at a glance.</p>
-    </div>
-    <div class="feature-card">
-      <div class="feature-icon">📱</div>
-      <h3>QR check-ins</h3>
-      <p>Members scan their personal QR code to check in instantly. No app needed for members — just a code.</p>
-    </div>
-    <div class="feature-card">
-      <div class="feature-icon">💳</div>
-      <h3>Payments & plans</h3>
-      <p>Create membership plans, record payments, and track revenue. Full payment history per member.</p>
-    </div>
-    <div class="feature-card">
-      <div class="feature-icon">📊</div>
-      <h3>Web dashboard</h3>
-      <p>Access your gym from any browser at dashboard.gymnest.org. Full stats, member list, and reports.</p>
-    </div>
-    <div class="feature-card">
-      <div class="feature-icon">🔔</div>
-      <h3>Expiry reminders</h3>
-      <p>Get notified when memberships are about to expire. Bulk notify members before they lapse.</p>
-    </div>
-    <div class="feature-card">
-      <div class="feature-icon">📄</div>
-      <h3>PDF export</h3>
-      <p>Export your full member list as a PDF in one tap. Perfect for backups and reporting.</p>
-    </div>
+<!-- PHOTO STRIP -->
+<div class="photo-strip">
+  <div class="photo-strip-item">
+    <img src="gymnest1.jpg" alt="Gym weights">
+    <span class="photo-strip-label">Free weights</span>
   </div>
-</section>
+  <div class="photo-strip-item">
+    <img src="gymnest2.jpg" alt="Spin bikes">
+    <span class="photo-strip-label">Cardio floor</span>
+  </div>
+</div>
 
 <!-- PRICING -->
-<section class="pricing" id="pricing">
-  <div class="section-label" style="text-align:center;">Pricing</div>
-  <div class="section-title" style="text-align:center; margin-bottom:16px;">Simple, honest pricing</div>
-  <p style="text-align:center; color:var(--text-muted); margin-bottom:32px; font-size:15px;">Subscribe from any device — iPhone, Android, or computer.</p>
+<section class="pricing-section" id="pricing">
+  <div class="section-label">Pricing</div>
+  <h2>Simple. Honest. No surprises.</h2>
+  <p>Subscribe from any device — iPhone, Android, or computer. Stripe handles the payment.</p>
 
   <div class="pricing-toggle">
     <button class="active" id="btn-monthly" onclick="showMonthly()">Monthly</button>
@@ -422,99 +880,135 @@
   </div>
 
   <div class="pricing-grid">
-    <!-- Free -->
-    <div class="pricing-card">
-      <h3>Free</h3>
-      <div class="pricing-price">$0</div>
-      <div class="pricing-period">forever</div>
-      <ul class="pricing-features">
+    <div class="plan-card">
+      <div class="plan-name">Free</div>
+      <div class="plan-price">$0</div>
+      <div class="plan-period">forever, no credit card</div>
+      <ul class="plan-features">
         <li>Up to 20 members</li>
-        <li>Check-ins and QR codes</li>
-        <li>Membership plans</li>
-        <li>Payment tracking</li>
+        <li>iOS app access</li>
+        <li>Check-ins & QR codes</li>
+        <li>Plans & payments</li>
         <li>Announcements</li>
       </ul>
-      <a class="btn-subscribe btn-subscribe-secondary" href="https://apps.apple.com/dk/app/gymnest/id6797864571" target="_blank">Download free on App Store</a>
+      <a href="https://apps.apple.com/dk/app/gymnest/id6797864571" target="_blank" class="btn-plan btn-plan-secondary">Download on App Store</a>
     </div>
 
-    <!-- Pro -->
-    <div class="pricing-card featured">
-      <div class="pricing-badge">Most popular</div>
-      <h3>Pro</h3>
-      <div class="pricing-price" id="price-display">$20 <span>/ month</span></div>
-      <div class="pricing-period" id="price-period">billed monthly</div>
-      <ul class="pricing-features">
+    <div class="plan-card featured">
+      <div class="plan-badge">Most popular</div>
+      <div class="plan-name">Pro</div>
+      <div class="plan-price" id="price-display">$20 <sub>/ month</sub></div>
+      <div class="plan-period" id="price-period">billed monthly</div>
+      <ul class="plan-features">
         <li>Unlimited members</li>
-        <li>Web dashboard access</li>
+        <li>iOS app access</li>
+        <li>Web dashboard</li>
         <li>Revenue reports</li>
-        <li>PDF export</li>
+        <li>QR scanner</li>
         <li>Priority support</li>
-        <li>Everything in Free</li>
       </ul>
-      <button class="btn-subscribe btn-subscribe-primary" onclick="openModal()">Get Pro</button>
+      <button class="btn-plan btn-plan-primary" onclick="openModal()">Get Pro</button>
     </div>
   </div>
-
-  <p style="margin-top:24px; font-size:13px; color:var(--text-muted);">
-    Also available on <a href="https://apps.apple.com/dk/app/gymnest/id6797864571" target="_blank" style="color:var(--orange);">App Store</a> · 
-    <a href="privacy.html" style="color:var(--orange);">Terms</a> · 
-    <a href="terms.html" style="color:var(--orange);">Privacy</a>
+  <p class="pricing-note">
+    Also on <a href="https://apps.apple.com/dk/app/gymnest/id6797864571" target="_blank">App Store</a> &nbsp;·&nbsp;
+    <a href="privacy.html">Privacy</a> &nbsp;·&nbsp;
+    <a href="terms.html">Terms</a>
   </p>
 </section>
 
 <!-- DOWNLOAD -->
 <section class="download-section" id="download">
-  <div class="section-label">Download</div>
-  <div class="section-title" style="margin-bottom:0;">Two apps. One system.</div>
-  <div class="download-cards">
-    <!-- Gym Owner App -->
-    <div class="download-card">
-      <div class="download-card-icon">🏋️</div>
-      <h3>GymNest</h3>
-      <p>For gym owners. Manage members, plans, payments, and check-ins from your iPhone or web browser.</p>
-      <a class="btn-appstore" href="https://apps.apple.com/dk/app/gymnest/id6797864571" target="_blank">
-        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
-        App Store
-      </a>
-    </div>
-    <!-- Member App -->
-    <div class="download-card">
-      <div class="download-card-icon">🪪</div>
-      <h3>GymNest Member</h3>
-      <p>For gym members. View membership status, check in with QR code, and see gym announcements.</p>
-      <div style="display:flex;flex-direction:column;gap:10px;">
-        <a class="btn-appstore" href="https://apps.apple.com/dk/app/gymnest-member/id6797877066" target="_blank">
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
-          App Store
-        </a>
-        <a class="btn-appstore" href="https://play.google.com/store/apps/details?id=com.chmays.GymNestMember" target="_blank">
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3.18 23.76c.3.17.64.22.97.15l12.45-7.19-2.78-2.78-10.64 9.82zm-1.93-20.7C1.1 3.3 1 3.67 1 4.07v15.86c0 .4.1.77.25 1.1l.07.06 8.88-8.88v-.21L1.32 3.06l-.07.06zm17.54 9.27l-2.52-1.45-3.07 3.07 3.07 3.07 2.54-1.47c.73-.42.73-1.1 0-1.52l-.02-.7zm-16.1 9.96l10.95-10.95-2.78-2.78L1.25 19.29c.28.32.9.38 1.44.06z"/></svg>
-          Google Play
-        </a>
+  <img class="download-bg" src="gymnest1.jpg" alt="">
+  <div class="download-overlay"></div>
+  <div class="download-content">
+    <div class="section-label">Download</div>
+    <h2>Two apps. One system.</h2>
+    <p>The owner app manages everything. The member app handles check-ins.</p>
+    <div class="download-cards">
+      <!-- Owner app -->
+      <div class="download-card">
+        <span class="download-card-icon">🏋️</span>
+        <h3>GymNest</h3>
+        <p>For gym owners. Manage members, plans, payments, and check-ins from your iPhone or web browser.</p>
+        <div class="store-buttons">
+          <a class="btn-store" href="https://apps.apple.com/dk/app/gymnest/id6797864571" target="_blank">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+            App Store
+          </a>
+        </div>
+      </div>
+      <!-- Member app -->
+      <div class="download-card">
+        <span class="download-card-icon">🪪</span>
+        <h3>GymNest Member</h3>
+        <p>For gym members. View membership, check in with QR code, and read gym announcements.</p>
+        <div class="store-buttons">
+          <a class="btn-store" href="https://apps.apple.com/dk/app/gymnest-member/id6797877066" target="_blank">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+            App Store
+          </a>
+          <a class="btn-store btn-store-play" href="https://play.google.com/store/apps/details?id=com.chmays.GymNestMember" target="_blank">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3.18 23.76c.3.17.64.22.97.15l12.45-7.19-2.78-2.78-10.64 9.82zm-1.93-20.7C1.1 3.3 1 3.67 1 4.07v15.86c0 .4.1.77.25 1.1l.07.06 8.88-8.88v-.21L1.32 3.06l-.07.06zm17.54 9.27l-2.52-1.45-3.07 3.07 3.07 3.07 2.54-1.47c.73-.42.73-1.1 0-1.52l-.02-.7zm-16.1 9.96l10.95-10.95-2.78-2.78L1.25 19.29c.28.32.9.38 1.44.06z"/></svg>
+            Google Play
+          </a>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- LEGAL -->
-<section class="legal-section">
-  <h2>Legal</h2>
-  <p>Read our privacy policy and terms of use below.</p>
-  <div class="legal-links">
-    <a class="legal-link" href="privacy.html">🔒 Privacy Policy</a>
-    <a class="legal-link" href="terms.html">📄 Terms of Use</a>
+<!-- FAQ -->
+<section class="faq-section" id="faq">
+  <h2>Questions</h2>
+  <div class="faq-item">
+    <div class="faq-q" onclick="toggleFaq(this)">What's in the free plan? <span class="faq-icon">+</span></div>
+    <div class="faq-a">Up to 20 members, iOS app, check-ins, QR codes, plans, payments, and announcements. Free forever — no time limit, no credit card.</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q" onclick="toggleFaq(this)">Can I pay from Android or a computer? <span class="faq-icon">+</span></div>
+    <div class="faq-a">Yes. Subscribe to Pro here on this page from any device. The owner app is iOS only, but the web dashboard at dashboard.gymnest.org works on any browser.</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q" onclick="toggleFaq(this)">What currencies do you accept? <span class="faq-icon">+</span></div>
+    <div class="faq-a">135+ currencies via Stripe. Customers in Denmark see DKK, customers in Lebanon see LBP, in the US they see USD — all automatic.</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q" onclick="toggleFaq(this)">Can I cancel anytime? <span class="faq-icon">+</span></div>
+    <div class="faq-a">Yes. Cancel anytime from your Stripe billing portal. You keep Pro access until the end of the billing period, then go back to the free plan with 20 members.</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q" onclick="toggleFaq(this)">Is my payment secure? <span class="faq-icon">+</span></div>
+    <div class="faq-a">All payments are processed by Stripe — one of the world's most trusted payment platforms. We never see or store your card details.</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q" onclick="toggleFaq(this)">Do my members pay anything? <span class="faq-icon">+</span></div>
+    <div class="faq-a">No. GymNest Member is completely free to download and use for your gym members.</div>
   </div>
 </section>
 
+<!-- CTA BOTTOM -->
+<section class="cta-section">
+  <h2>Your gym deserves better than a notebook.</h2>
+  <p>Start free today. No credit card, no setup fee.</p>
+  <a href="#pricing" class="btn-primary">Get started free</a>
+</section>
+
+<!-- FOOTER -->
 <footer>
-  <p>© 2026 GymNest. All rights reserved. &nbsp;|&nbsp; <a href="mailto:support@gymnest.org">support@gymnest.org</a> &nbsp;|&nbsp; <a href="privacy.html">Privacy</a> &nbsp;·&nbsp; <a href="terms.html">Terms</a></p>
+  <p>© 2026 GymNest. All rights reserved. &nbsp;|&nbsp; <a href="mailto:support@gymnest.org" style="color:var(--orange)">support@gymnest.org</a></p>
+  <div class="footer-links">
+    <a href="privacy.html">Privacy</a>
+    <a href="terms.html">Terms</a>
+    <a href="https://dashboard.gymnest.org">Dashboard</a>
+  </div>
 </footer>
 
 <!-- MODAL -->
 <div class="modal-overlay" id="modal">
   <div class="modal">
     <h3>Upgrade to Pro</h3>
-    <p class="modal-plan-info" id="modal-plan-info">$20 / month — unlimited members & web dashboard</p>
+    <p class="modal-plan" id="modal-plan">$20 / month — unlimited members & web dashboard</p>
     <label>Email address</label>
     <input type="email" id="email-input" placeholder="you@example.com">
     <p class="modal-note">Use the same email as your GymNest account.</p>
@@ -533,7 +1027,7 @@
     currentPlan = 'monthly';
     document.getElementById('btn-monthly').classList.add('active');
     document.getElementById('btn-yearly').classList.remove('active');
-    document.getElementById('price-display').innerHTML = '$20 <span>/ month</span>';
+    document.getElementById('price-display').innerHTML = '$20 <sub>/ month</sub>';
     document.getElementById('price-period').textContent = 'billed monthly';
   }
 
@@ -541,21 +1035,35 @@
     currentPlan = 'yearly';
     document.getElementById('btn-yearly').classList.add('active');
     document.getElementById('btn-monthly').classList.remove('active');
-    document.getElementById('price-display').innerHTML = '$149 <span>/ year</span>';
+    document.getElementById('price-display').innerHTML = '$149 <sub>/ year</sub>';
     document.getElementById('price-period').textContent = 'billed yearly — save $91';
   }
 
   function openModal() {
-    document.getElementById('modal-plan-info').textContent = currentPlan === 'monthly'
+    document.getElementById('modal-plan').textContent = currentPlan === 'monthly'
       ? '$20 / month — unlimited members & web dashboard'
       : '$149 / year — unlimited members & web dashboard';
     document.getElementById('modal').classList.add('open');
-    document.getElementById('email-input').focus();
+    setTimeout(() => document.getElementById('email-input').focus(), 100);
   }
 
   function closeModal() {
     document.getElementById('modal').classList.remove('open');
     document.getElementById('modal-error').classList.remove('show');
+  }
+
+  function toggleFaq(el) {
+    const isOpen = el.classList.contains('open');
+    document.querySelectorAll('.faq-q').forEach(q => {
+      q.classList.remove('open');
+      q.querySelector('.faq-icon').textContent = '+';
+      q.nextElementSibling.classList.remove('open');
+    });
+    if (!isOpen) {
+      el.classList.add('open');
+      el.querySelector('.faq-icon').textContent = '−';
+      el.nextElementSibling.classList.add('open');
+    }
   }
 
   async function startCheckout() {
@@ -587,7 +1095,7 @@
         btn.disabled = false;
         btn.textContent = 'Continue to payment';
       }
-    } catch (e) {
+    } catch {
       errorEl.textContent = 'Connection error. Please try again.';
       errorEl.classList.add('show');
       btn.disabled = false;
@@ -598,7 +1106,6 @@
   document.getElementById('modal').addEventListener('click', function(e) {
     if (e.target === this) closeModal();
   });
-
   document.getElementById('email-input').addEventListener('keydown', function(e) {
     if (e.key === 'Enter') startCheckout();
   });
